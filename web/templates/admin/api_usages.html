@@ -1,0 +1,187 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} API Usages {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> API Usages </h3>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Line chart</h4>
+          <canvas id="lineChart" style="height:250px"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Bar chart</h4>
+          <canvas id="lineChart2" style="height:230px"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Number of Requests</h4>
+          <canvas id="barChart" style="height:250px"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">API Usage By {{userName}}</h4>
+          <canvas id="barChart2" style="height:250px"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>  
+{% endblock %}
+
+{% block customscript %}
+<script type="text/javascript">
+
+  var dynamicColors = function() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+  };
+
+  var colors = [];
+  var labels = [];  
+  var logData = [];
+  var logData2 = [], logData3 = [], logData4 = [];
+
+  let logStr = '{{logs}}'
+  logStr = logStr.replaceAll('&#34;', '"')
+  data = JSON.parse(logStr)
+
+  labels = []
+  data.forEach(ud=>{        
+    labels.push(ud['grouped_date'])
+    logData.push(ud['total_records']);
+    colors.push(dynamicColors());
+  })   
+
+  var apiChartData = {
+    labels: labels,
+    datasets: [{
+      label: 'Number of Requests',
+      data: logData,
+      backgroundColor: colors,
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }]
+  };
+
+  logStr = '{{logs_by_func}}'
+  logStr = logStr.replaceAll('&#34;', '"')
+  data = JSON.parse(logStr)
+
+  labels = []
+  data.forEach(ud=>{        
+    let name = ud['Action'].replace('admin_page_', "")
+    name = name.replace('api_', "")
+    labels.push(name)
+    logData2.push(ud['total_records']);
+    colors.push(dynamicColors());
+  })   
+
+  var apiChartData2 = {
+    labels: labels,
+    datasets: [{
+      label: 'API Usage',
+      data: logData2,
+      backgroundColor: colors,
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }]
+  };
+
+  logStr = '{{logs_by_user}}'
+  logStr = logStr.replaceAll('&#34;', '"')
+  data = JSON.parse(logStr)
+
+  labels = []
+  data.forEach(ud=>{        
+    labels.push(ud['Name'])
+    logData3.push(ud['total_records']);
+    colors.push(dynamicColors());
+  })   
+
+  var barChartData = {
+    labels: labels,
+    datasets: [{
+      label: 'Number of Request By User',
+      data: logData3,
+      backgroundColor: colors,
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }]
+  };
+
+  logStr = '{{logs_by_func_user}}'
+  logStr = logStr.replaceAll('&#34;', '"')
+  data = JSON.parse(logStr)
+
+  labels = []
+  data.forEach(ud=>{        
+    let name = ud['Action'].replace('admin_page_', "")
+    name = name.replace('api_', "")
+    labels.push(name)
+    logData4.push(ud['total_records']);
+    colors.push(dynamicColors());
+  })   
+
+  var barChartData2 = {
+    labels: labels,
+    datasets: [{
+      label: 'API Usage By {{user_name}}',
+      data: logData4,
+      backgroundColor: colors,
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }]
+  };
+</script>
+<script src="/admin_assets/js/chart.js"></script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Account Settings {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> Account Settings </h3>    
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Account Settings</h4>
+            <p class="card-description"> This form is to update account settings </p>
+            <form class="forms-sample" action="{{url_for('admin_page_user')}}" method="POST">
+                <div class="form-group">
+                    <label for="userName">User Name<span class="required">*</span></label>
+                    <input type="text" class="form-control" id="userName" placeholder="User Name" name="userName" value="{{user.Name}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="displayName">Display Name<span class="required">*</span></label>
+                    <input type="text" class="form-control" id="displayName" placeholder="Display Name" name="userName" value="{{user.displayName}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Age">Age</label>
+                    <input type="text" class="form-control" id="Age" placeholder="Age" name="Age" value="{{user.Age}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="userRoleText">User Role</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="userRoleText" placeholder="User Role" name="userRoleText" value="{{user.userRoleText}}" disabled>
+                            <input type="hidden" class="form-control" id="userRoleValue" placeholder="User Role" name="userRoleValue" value="{{user.userRoleValue}}">
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{url_for('admin_page_upgrade_account')}}" class="btn btn-gradient-primary me-2">Upgrade Account</a>
+                        </div>
+                    </div>                    
+                </div>
+                
+                <div class="form-group">
+                    <label for="userRoleText">User Status</label>
+                    <div class="row">
+                        <div class="col-md-6">                                            
+                            <input type="text" class="form-control" id="userStatusText" placeholder="User Status" name="userStatusText" value="{{user.userStatusText}}" disabled>
+                            <input type="hidden" class="form-control" id="userStatusValue" placeholder="User Status" name="userStatusValue" value="{{user.userStatusValue}}">
+                        </div>                    
+    
+                        <div class="col-md-6">                        
+                            <a href="{{url_for('admin_page_delete_account')}}" class="btn btn-danger">Delete Account</a>                                            
+                        </div>
+                    </div>                                        
+                </div>                
+
+                <div class="form-group">
+                    <label for="userRoleText">Template</label>                                        
+                    <select name="activeTemplate" id="activeTemplate" class="form-control">
+                        {% for template in templates %}
+                            <option value="{{template['ID']}}" {% if template['ID'] == user.Template %} selected {% endif %}>{{template['Name']}}</option>
+                        {% endfor %}
+                    </select>
+                </div>                
+
+                <input type="hidden" name="userID" value="{{user.userID}}" />
+                <button type="submit" class="btn btn-gradient-primary me-2">Update</button>
+                <a class="btn btn-light" href="{{url_for('admin_page_dashboard')}}">Cancel</a>
+                
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

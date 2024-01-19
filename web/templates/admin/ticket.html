@@ -1,0 +1,91 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Ticket {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+      <h3 class="page-title"> Ticket </h3>      
+      <a class="btn btn-outline-info btn-fw btn-icon-text" href="{{url_for('admin_page_tickets')}}"><i class="mdi mdi-format-list-bulleted btn-icon-prepend"></i>All Tickets</a>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Ticket Information</h4>                                
+                <table class="table table-striped">
+                <thead>
+                    <tr>          
+                        <th></th>                                      
+                        <th> Title </th>
+                        <th> Category </th>
+                        <th> Status </th>                                                                    
+                        <th> Created By </th>                                                                    
+                        <th> Created Date </th>
+                        <th> Last Updated </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>                                        
+                    <tr>
+                        <td class="py-1">
+                            
+                        </td>
+                        <td>{{ticket.Title}}</td>
+                        <td>{{ticket.CategoryName}}</td>
+                        <td>{{ticket.StatusName}}</td>
+                        <td>{{ticket.CreatorName}}</td>
+                        <td>{{ticket['Created Date']}}</td>
+                        <td>{{ticket['Last Updated']}}</td>
+                        <td><a href="" class="btn btn-info btn-sm">Mark as solved</a></td>
+                    </tr>                    
+                    
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Messages</h4>                                
+                <div class="messages-wrapper">
+                    {% for message in messages %}
+                    <div class="message-block {% if message['Created By'] != logged_in_user.user_id %} right-message {% endif %}">                    
+                        <p class="message-title my-0"><b>{{message.Title}}</b></p>
+                        <p class="message-content my-0">{{message.Content}}</p>
+                        <p class="message-date my-0">{{message['Created Date']}}</p>
+                        <p class="message-creator my-0"><b>{{message['CreatorName']}}</b></p>                    
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Write a message</h4>
+                    <p class="card-description"> This form is to update the customer </p>
+                    <form class="forms-sample" action="{{url_for('admin_post_write_message', id=ticket.ID)}}" method="POST">                                
+                        <div class="form-group">
+                            <label for="messageTitle">Title <span class="required">*</span></label>
+                            <input type="text" class="form-control" id="messageTitle" placeholder="Awesome Product" name="messageTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="messageContent">Content <span class="required">*</span></label>
+                            <textarea class="form-control" id="messageContent" rows="4" name="messageContent" required></textarea>
+                        </div>                  
+                        
+                        <input type="hidden" name="messageType" value="1">
+                        <input type="hidden" name="relatedRecID" value="{{ticket.ID}}">
+
+                        <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                        <a class="btn btn-light" href="{{url_for('admin_page_tickets')}}">Cancel</a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>  
+{% endblock %}

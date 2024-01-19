@@ -1,0 +1,45 @@
+Company : Fair Review
+
+Purpose: Help companies by gathering reviews for their products and help customers to find their products based on the review.
+
+Main features:
+- Account Management
+* Add/Edit/Remove Account
+* Change status
+* Change user roles
+* Roles and Permission
+* Token creation
+
+- Store Management
+* Add/Edit/Remove stores
+* Stores can have their reviews
+* Tags features upcoming
+
+- Product Management
+* Add/Edit/Remove product
+* One product can have multiple stores. (one product can be sold on multiple channels like Ebay, Amazon, etc)
+* Products should have categories and unique id to distinguish
+* Tags features upcoming
+
+- Review Management
+* Write feedback on Products/Stores
+* Overall rating
+* Thumbs up/down
+* Comment feature upcoming
+* Needs approval process
+
+- API Integration
+* Provides backend 
+* Output via API using API Key (token)
+
+- CSV import
+* Import Products/Reviews using CSV
+* Export Products/Reviews
+
+- API Usage statistics
+* Dashboard for API Usages based on log
+
+- Search / Filter features
+* Search by products/store names
+* Sort by ratings
+* Filter by overall ratings or categories

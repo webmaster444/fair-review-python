@@ -1,0 +1,65 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Import CSV {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> Import/Export CSV </h3>
+</div>
+<div class="row">
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">CSV Import</h4>
+                <p class="card-description"> Import Records from CSV </p>
+                <form class="forms-sample" enctype="multipart/form-data" action="{{url_for('admin_page_csv_import')}}" method="POST">          
+                <div class="form-group">
+                    <label for="recordType">Record Type <span class="required">*</span></label>
+                    <select class="form-control" id="recordType" name="recordType" required>
+                    <option value="">Please Select</option>
+                    {% for rec in rec_types %}
+                    <option value="{{rec}}">{{rec}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>File upload <span class="required">*</span></label>
+                    <input type="file" name="filename" class="file-upload-default" accept=".csv">
+                    <div class="input-group col-xs-12">
+                    <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image" required>
+                    <span class="input-group-append">
+                        <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
+                    </span>
+                    </div>
+                </div>          
+                <button type="submit" class="btn btn-gradient-primary me-2">Import</button>                
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Export</h4>
+                <p class="card-description"> Export Records via CSV </p>
+                <form class="forms-sample" enctype="multipart/form-data" action="{{url_for('admin_post_csv_export')}}" method="POST">          
+                <div class="form-group">
+                    <label for="recordType">Record Type <span class="required">*</span></label>
+                    <select class="form-control" id="recordType" name="recordType" required>
+                    <option value="">Please Select</option>
+                    {% for rec in rec_types %}
+                    <option value="{{rec}}">{{rec}}</option>
+                    {% endfor %}
+                    </select>
+                </div>                
+                <button type="submit" class="btn btn-gradient-primary btn-icon-text me-2"><i class="mdi mdi mdi-cloud-download btn-icon-prepend"></i>Download</button>                
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block customscript %}
+<script src="/admin_assets/js/file-upload.js"></script>
+{% endblock %}

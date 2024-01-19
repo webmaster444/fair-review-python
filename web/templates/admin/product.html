@@ -1,0 +1,65 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} {% if product.ID is not defined %}Create {%else %}Edit{%endif%} A Product {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> {% if product.ID is not defined %}Create {%else %}Edit{%endif%} A Product </h3>    
+    <a class="btn btn-outline-info btn-fw btn-icon-text" href="{{url_for('admin_page_products')}}"><i class="mdi mdi-format-list-bulleted btn-icon-prepend"></i>All Products</a>
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">{% if product.ID is not defined %}Create {%else %}Edit{%endif%} A Product</h4>
+            <p class="card-description"> This form is to create/update the product </p>
+            <form class="forms-sample" action="{{url_for('admin_page_product')}}" method="POST">
+                <div class="form-group">
+                    <label for="productName">Product Name <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="productName" placeholder="Product Name" name="productName" value="{{product.Name}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Category</label>
+                    <select class="form-control" id="exampleSelectGender" name="productCategory">
+                        {% for category in categories %}
+                            <option value="{{category.ID}}" {% if category.ID == product.Category %} selected {% endif %}>{{category.Name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productTags">Tags</label>
+                    <textarea id="productTags" class="form-control"  name="productTags">{{product.Tags}}</textarea>
+                </div>
+                <input type="hidden" name="productID" value="{{product.ID}}" />
+                <h4 class="card-title">Stores</h4>
+                <div class="add-items d-flex">
+                    <select class="form-control" id="productStore" name="productStore">
+                        {% for store in stores %}
+                            <option value="{{store.ID}}">{{store.Name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" class="form-control todo-list-input" placeholder="Store URL" style="margin-left:0.5rem">
+                    <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn" id="add-task">Add</button>
+                </div>
+                <input type="hidden" name="storeInfo" id="storeInfo" value="{{product.StoreInfo}}">
+                <div class="list-wrapper">
+                <ul class="d-flex flex-column-reverse todo-list todo-list-custom mb-3">
+                    {% for store in product.Stores %}
+                    <li>
+                    <div class="form-check" storeID="{{store['Store ID']}}">
+                        {{store['Store Name']}} - {{store['Store URL']}}
+                    </div>
+                    <i class="remove mdi mdi-close-circle-outline d-none disabled"></i>
+                    </li>                    
+                    {% endfor %}
+                </ul>
+                </div>
+                <button type="submit" class="btn btn-gradient-primary me-2">{% if product.ID is not defined %}Create {%else %}Update{%endif%}</button>
+                <a class="btn btn-light" href="{{url_for('admin_page_products')}}">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

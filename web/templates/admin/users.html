@@ -1,0 +1,48 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Users {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> All Users </h3>
+    <a class="btn btn-outline-info btn-fw btn-icon-text" href="{{url_for('admin_page_user')}}"><i class="mdi mdi-plus-circle-outline btn-icon-prepend"></i>Create New User</a>
+</div>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">All Users</h4>
+          <p class="card-description">List of all users</p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>  </th>
+                <th> User Name </th>
+                <th> Display Name </th>
+                <th> Age </th>
+                <th> Role </th>                
+                <th> Status </th>                
+                <th> </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for u in users %}
+              <tr>
+                <td class="py-1">
+                  {{ loop.index }}
+                </td>
+                <td> {{ u['Name'] }} </td>
+                <td> {{ u['displayName'] }} </td>
+                <td> {{ u['Age'] }} </td>
+                <td> {{ u['userRoleText'] }} </td>
+                <td> {{ u['userStatusText']}}</td>
+                <td><a class="btn btn-inverse-dark btn-icon" href="{{ url_for('admin_page_user', id=u['userID']) }}"><i class="mdi mdi-grease-pencil"></i></a></td>
+              </tr>              
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

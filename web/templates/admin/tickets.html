@@ -1,0 +1,53 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} All Tickets {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+      <h3 class="page-title"> All Tickets </h3>      
+    </div>
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">All Open Tickets</h4>                                
+                <table class="table table-striped">
+                <thead>
+                    <tr>          
+                        <th></th>                                      
+                        <th> Title </th>
+                        <th> Category </th>
+                        <th> Status </th>                                                                    
+                        <th> Created By </th>                                                                    
+                        <th> Created Date </th>
+                        <th> Last Updated </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if tickets|length == 0 %}
+                    <tr>
+                        <td colspan="8" align="center"> No open ticket</td>
+                    </tr>
+                    {% endif %}
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td class="py-1">
+                            {{ loop.index }}
+                        </td>
+                        <td><a href="{{url_for('admin_page_ticket', id=ticket['ID'])}}">{{ticket.Title}}</a></td>
+                        <td>{{ticket.CategoryName}}</td>
+                        <td>{{ticket.StatusName}}</td>
+                        <td>{{ticket.CreatorName}}</td>
+                        <td>{{ticket['Created Date']}}</td>
+                        <td>{{ticket['Last Updated']}}</td>
+                        <td><form action="{{url_for('admin_post_mark_solved', id=ticket['ID'])}}" method="POST"><button type="submit" class="btn btn-info btn-sm">Mark as solved</button></form></td>
+                    </tr>                    
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>  
+{% endblock %}

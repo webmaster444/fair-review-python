@@ -1,0 +1,115 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Write A Review {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> {% if review.ID is not defined %}Write {%else %}Edit{%endif%} A Review </h3>    
+    <a class="btn btn-outline-info btn-fw btn-icon-text" href="{{url_for('admin_page_reviews')}}"><i class="mdi mdi-format-list-bulleted btn-icon-prepend"></i>All Reviews</a>
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">{% if review.ID is not defined %}Write {%else %}Edit{%endif%} A Review</h4>
+            <p class="card-description"> This form is to write/update the review </p>
+            <form class="forms-sample" action="{{url_for('admin_page_review')}}" method="POST">
+                <div class="form-group">
+                    <label for="reviewProduct">Products</label>
+                    <select class="form-control" id="reviewProduct" name="reviewProduct" readonly>
+                        {% for p in products %}
+                            <option value="{{p.ID}}" {% if p.ID == review['Product ID'] or p.ID == product['ID'] %} selected {% endif %}>{{p['Name']}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewProductStore">Store</label>
+                    <select class="form-control" id="reviewProductStore" name="reviewProductStore">
+                        {% for store in product_stores %}
+                            <option value="{{store.StoreID}}" {% if store.psID == review['Product Store ID'] %} selected {% endif %}>{{store['s.Name']}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reviewTitle">Title <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="reviewTitle" placeholder="Awesome Product" name="reviewTitle" value="{{review.Title}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="reviewContent">Content</label>
+                    <textarea class="form-control" id="reviewContent" rows="4" name="reviewContent">{{review.Content}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="reviewRate">Rate <span class="required">*</span></label>
+                    <input class="form-control" type="number" name="reviewRate" id="reviewRate" value="{{review.Rate}}" required>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="reviewThumbsUp">Thumbs up</label>
+                        <input class="form-control" type="number" name="reviewThumbsUp" id="reviewThumbsUp" value="{{review['Thumbs Up']}}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="reviewThumbsDown">Thumbs down </label>
+                        <input class="form-control" type="number" name="reviewThumbsDown" id="reviewThumbsDown" value="{{review['Thumbs Down']}}">
+                    </div>
+                </div>      
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="reviewWriterName">Writer Name <span class="required">*</span></label>
+                        <input class="form-control" type="text" name="reviewWriterName" id="reviewWriterName" value="{{review['Writer Name']}}" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="reviewWriterPosition">Writer Position </label>
+                        <input class="form-control" type="text" name="reviewWriterPosition" id="reviewWriterPosition" value="{{review['Writer Position']}}">
+                    </div>
+                </div>                          
+
+                <input type="hidden" name="reviewID" value="{{review.ID}}" />
+                
+                
+                <button type="submit" class="btn btn-gradient-primary me-2">{% if review.ID is not defined %}Write {%else %}Update{%endif%}</button>
+                <a class="btn btn-light" href="{{url_for('admin_page_reviews')}}">Cancel</a>
+            </form>
+          </div>
+        </div>
+    </div>
+    {% if review.ID != undefined %}
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Messages</h4>
+            <p class="card-description"> This form is to write/update the review </p>
+
+            <div class="messages-wrapper">
+                {% for message in messages %}
+                <div class="message-block {% if loop.index == 1 %} right-message {% endif %}">                    
+                    <p class="message-title my-0"><b>{{message.Title}}</b></p>
+                    <p class="message-content my-0">{{message.Content}}</p>
+                    <p class="message-date my-0">{{message['Created Date']}}</p>
+                    <p class="message-creator my-0"><b>{{message['CreatorName']}}</b></p>                    
+                </div>
+                {% endfor %}
+            </div>
+            <form class="forms-sample" action="{{url_for('admin_post_write_message', id=review.ID)}}" method="POST">                                
+                <div class="form-group">
+                    <label for="messageTitle">Title <span class="required">*</span></label>
+                    <input type="text" class="form-control" id="messageTitle" placeholder="Awesome Product" name="messageTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="messageContent">Content <span class="required">*</span></label>
+                    <textarea class="form-control" id="messageContent" rows="4" name="messageContent" required></textarea>
+                </div>                  
+                
+                <input type="hidden" name="messageType" value="2">
+                <input type="hidden" name="relatedRecID" value="{{review.ID}}">
+                
+                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                <a class="btn btn-light" href="{{url_for('admin_page_tickets')}}">Cancel</a>
+            </form>
+          </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

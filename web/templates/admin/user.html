@@ -1,0 +1,59 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} {% if user.userID is undefined %} Create {% else %} Update {% endif %}A User {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> {% if user.userID is undefined %} Create {% else %} Update {% endif %}A User </h3>  
+    <a class="btn btn-outline-info btn-fw btn-icon-text" href="{{url_for('admin_page_users')}}"><i class="mdi mdi-format-list-bulleted btn-icon-prepend"></i>All Users</a>  
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">{% if user.userID is undefined %} Create {% else %} Update {% endif %}A User</h4>
+            <p class="card-description"> This form is to {% if user.userID is undefined %} create {% else %} update {% endif %}a user </p>
+            <form class="forms-sample" action="{{url_for('admin_page_user')}}" method="POST">
+                <div class="form-group">
+                    <label for="userName">User Name<span class="required">*</span></label>
+                    <input type="text" class="form-control" id="userName" placeholder="User Name" name="userName" value="{{user.Name}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="displayName">Display Name<span class="required">*</span></label>
+                    <input type="text" class="form-control" id="displayName" placeholder="Display Name" name="displayName" value="{{user.displayName}}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="Age">Age</label>
+                    <input type="text" class="form-control" id="Age" placeholder="Age" name="Age" value="{{user.Age}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="userRoleText">User Role</label>
+                    <select class="form-control" id="userRoles" name="userRoles">
+                        {% for role in userRoles %}
+                            <option value="{{role.ID}}" {% if user.userRoleValue == role.ID %} selected="selected" {% endif %}>{{role['Role Name']}}</option>
+                        {% endfor %}
+                    </select>                     
+                </div>
+                
+                <div class="form-group">
+                    <label for="userRoleText">User Status</label>   
+                    <select class="form-control" id="userStatus" name="userStatus">
+                        {% for status in userStatuses %}
+                            <option value="{{status.ID}}" {% if user.userStatusValue == status.ID %} selected="selected" {% endif %}>{{status.Status}}</option>
+                        {% endfor %}
+                    </select>                                
+                </div>                
+
+                <input type="hidden" name="userID" value="{{user.userID}}" />
+                <button type="submit" class="btn btn-gradient-primary me-2">Update</button>
+                <a class="btn btn-light" href="{{url_for('admin_page_users')}}">Cancel</a>
+                
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

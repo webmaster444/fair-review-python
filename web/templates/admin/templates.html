@@ -1,0 +1,43 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} All Templates {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+      <h3 class="page-title"> All Templates </h3>      
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">All Templates</h4>                                
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th> Store Name</th>
+                        <th> Title </th>
+                        <th> Content </th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in templates %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td class="py-1">
+                            <a href="{{url_for('admin_page_template', tid=review['ID'])}}" target="_blank">{{review["Name"]}}</a>
+                        </td>
+                        <td>{{review["Name"]}}</td>                        
+                        <td>
+                            {{review["Content"]}}
+                        </td>                        
+                    </tr>                    
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>  
+{% endblock %}

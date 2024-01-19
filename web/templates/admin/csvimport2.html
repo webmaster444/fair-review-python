@@ -1,0 +1,57 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Import CSV Step 2 {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> CSV Import - Step 2</h3>
+</div>
+<div class="row">
+<div class="col-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">CSV Import - Step 2</h4>
+        <p class="card-description"> Import Records from CSV </p>
+        <form class="forms-sample" action="{{url_for('admin_post_csv_import')}}" method="POST">          
+          <div class="form-group">
+            <label for="recordType">Record Type <span class="required">*</span></label>
+            <select class="form-control" id="recordType" name="recordType" readonly>
+              <option value="">Please Select</option>
+              {% for rec in rec_types %}
+              <option value="{{rec}}" {% if rec == rec_type_selected %}selected {% endif %}>{{rec}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <p class="card-description">Please select all columns to import {{rec_type_selected}}s</p>
+          <div class="csv-columns-wrapper">
+            {% for column in columns %}            
+            <div class="row">
+              <div class="col-lg-4">{{column['label']}} </div>
+              <div class="col-lg-8">
+                <div class="form-group">
+                <label for="{{column['slug']}}">{{column['label']}} {% if column['required'] %} <span class="required">*</span>{%endif %}</label>
+                <select class="form-control" id="{{column['slug']}}" name="{{column['slug']}}" {% if column['required'] %} required  {%endif %}>
+                  <option value="">Please Select</option>
+                  {% for rec in csv_data_columns %}
+                  <option value="{{rec}}">{{rec}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>                                  
+          
+          <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+          <a class="btn btn-light" href="{{url_for('admin_page_csv_import')}}">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block customscript %}
+<script src="/admin_assets/js/file-upload.js"></script>
+{% endblock %}

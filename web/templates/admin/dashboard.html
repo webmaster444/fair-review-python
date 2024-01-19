@@ -1,0 +1,171 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> Dashboard </h3>
+</div>
+<div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Number Of API Requests</h4>
+          <canvas id="lineChart" style="height:250px"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">API Usages</h4>
+          <canvas id="lineChart2" style="height:250px"></canvas>
+        </div>
+      </div>
+    </div>    
+  </div>
+  <div class="row">
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Number of Users</h4>
+          <canvas id="doughnutChart" style="height:230px"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Open Tickets</h4>                                     
+          <table class="table table-striped">
+          <thead>
+              <tr>          
+                  <th></th>                                      
+                  <th> Title </th>
+                  <th> Category </th>
+                  <th> Status </th>                                                                                      
+              </tr>
+          </thead>
+          <tbody>
+              {% if tickets|length == 0 %}
+              <tr>
+                  <td colspan="8" align="center"> No open ticket</td>
+              </tr>
+              {% endif %}
+              {% for ticket in tickets %}
+              <tr>
+                  <td class="py-1">
+                      {{ loop.index }}
+                  </td>
+                  <td><a href="{{url_for('admin_page_ticket', id=ticket['ID'])}}">{{ticket.Title}}</a></td>
+                  <td>{{ticket.CategoryName}}</td>
+                  <td>{{ticket.StatusName}}</td>                  
+              </tr>                    
+              {% endfor %}
+          </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block customscript %}
+<script type="text/javascript">
+  let usersString = '{{users}}'
+  usersString = usersString.replaceAll('&#34;', '"')
+  var data = JSON.parse(usersString)
+  var dynamicColors = function() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+  };
+
+  var colors = [];
+  var labels = [];
+  var userData = [];
+  var logData = [];
+  var logData2 = [];
+  data.forEach(ud=>{    
+    labels.push(ud['Role Name'])
+    userData.push(ud['Count']);
+    colors.push(dynamicColors());
+  })      
+
+  var doughnutPieData = {
+    datasets: [{
+      data: userData,
+
+      backgroundColor: colors      
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: labels
+  };
+
+  let logStr = '{{logs}}'
+  logStr = logStr.replaceAll('&#34;', '"')
+  data = JSON.parse(logStr)
+
+  labels = []
+  data.forEach(ud=>{    
+    
+    labels.push(ud['grouped_date'])
+    logData.push(ud['total_records']);
+    colors.push(dynamicColors());
+  })   
+
+  var apiChartData = {
+    labels: labels,
+    datasets: [{
+      label: 'Number of Requests',
+      data: logData,
+      backgroundColor: colors,
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }]
+  };
+
+  logStr = '{{logs_by_func}}'
+  logStr = logStr.replaceAll('&#34;', '"')
+  data = JSON.parse(logStr)
+
+  labels = []
+  data.forEach(ud=>{        
+    let name = ud['Action'].replace('admin_page_', "")
+    name = name.replace('api_', "")
+    labels.push(name)
+    logData2.push(ud['total_records']);
+    colors.push(dynamicColors());
+  })   
+
+  var apiChartData2 = {
+    labels: labels,
+    datasets: [{
+      label: 'API Usage',
+      data: logData2,
+      backgroundColor: colors,
+      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }]
+  };
+</script>
+<script src="/admin_assets/js/chart.js"></script>
+{% endblock %}

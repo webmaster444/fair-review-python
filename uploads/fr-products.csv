@@ -1,0 +1,32 @@
+Name,ID,Category,Store Name,Store URL
+Stretch Fabric Wall,1,1,,
+Product 1,2,3,,
+Product 2,3,3,Vividads,https://www.vividads.com.au/products/feather-flags
+Product 2,3,3,Ebay U,https://www.amazon.com/s/?_encoding=UTF8&i=fashion
+Product 2,3,3,Eureka,https://www.ebay.com/itm/155397580565?_trkparms=am
+Product 3,8,3,Vividads,https://www.vividads.com.au/products/stretch-table
+Product 3,8,3,Ebay U,https://www.vividads.com.au/products/stretch-table
+Product 3,8,3,Eureka,https://www.vividads.com.au/products/stretch-table
+Product 4,14,7,Eureka,https://www.amazon.com/s/?_encoding=UTF8&i=fashion
+Product 4,14,7,Vividads,https://www.amazon.com/s/?_encoding=UTF8&i=fashion
+Product 4,14,7,Ebay U,https://www.ebay.com/itm/155397580565?_trkparms=am
+Product 2 U,15,3,Eureka,https://www.amazon.com/s/?_encoding=UTF8&i=fashion
+Product 2 U,15,3,Ebay U,https://www.ebay.com/itm/155397580565?_trkparms=am
+Product 2 U,15,3,Google Store 1,https://www.amazon.com/s/?_encoding=UTF8&i=fashion
+Product 2 U,15,3,Google Store 2,gs2.p2u.com
+Dynamic Product 1,16,1,PTX,https://ptx.store1.com
+Dynamic Product 2,17,4,Ebay U,ebay.dp2.com
+Dynamic Product 2,17,4,Google Store 2,gs2.dp2.com
+Dp 3,18,5,Vividads,dp3.viv.co
+Dp 3,18,5,Google Store 1,gs.dp3.c
+DP 4,19,3,Vividads,vividads.com.dp4
+DP 4,19,3,Eureka,eureka.dp4.com
+New PN With Tags,20,4,Ebay U,ebay.newpnwithtags.com
+New PN With Tags,20,4,Google Store 1,pnwithtags.mboiles.com
+New PN With Tags,21,4,Ebay U,ebay.newpnwithtags.com
+New PN With Tags,21,4,Google Store 1,pnwithtags.mboiles.com
+New PN With Tags,22,4,Ebay U,ebay.newpnwithtags.com
+New PN With Tags,22,4,Google Store 1,pnwithtags.mboiles.com
+Product Tags,23,1,PTX,pt1.ptx.com
+PT2,24,1,Google Store 1,gs1.pt2.com
+PT3,25,5,Eureka,eureka.pt1.com

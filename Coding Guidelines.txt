@@ -1,0 +1,35 @@
+Indentation - Tab (4 spaces)
+Variable Names - snake_case
+
+API end point routes - /api/{api_version}/
+api_hello():
+api_new_user():
+api_new_product():
+api_all_users():
+...
+
+Admin end point routes - /admin/
+admin_page_dashboard():
+admin_page_api_usages():
+admin_page_account_settings():
+admin_page_delete_account():
+admin_page_user(): (singular form) create/edit 
+admin_page_users(): (plural form) list page
+...
+
+Front end point routes
+page_login():
+page_index():
+...
+
+
+Function Names - snake_case()
+
+Local function names starts with underline and snake_case() like _new_product()
+
+Use f"" for string format instead of using docstring
+
+Use local function for same feature even it is used in Admin or API.
+
+All SQL queries should be written and stored in sql_queries.py, meaning no sql query in app.py and import from sql_queries.py
+**** Here we have an issue with dynamic queries **** 

@@ -1,0 +1,24 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Close Account {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> Close Account</h3>    
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Close Account</h4>
+            <p class="card-description"> Are you sure to close account? APIs will no longer work if you close </p>
+            <form class="forms-sample" action="{{url_for('admin_page_delete_account')}}" method="POST">                
+                <input type="hidden" name="userID" value="{{userID}}" />
+                <a href="{{url_for('admin_page_account_settings')}}" class="btn btn-gradient-primary me-2">Keep Use</a>
+                <button class="btn btn-danger" type="submit">Close Account</button>                
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

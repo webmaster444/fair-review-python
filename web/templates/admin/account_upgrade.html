@@ -1,0 +1,25 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} Upgrade Account {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3 class="page-title"> Upgrade Account</h3>    
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Upgrade Account</h4>
+            <p class="card-description"> You will reward the benefits if you upgrade the account. Are you going to upgrade now? </p>
+            <p class="card-description"> Currently {{user.displayName}}'s Role is {{user.userRoleText}}</p>
+            <form class="forms-sample" action="{{url_for('admin_page_upgrade_account')}}" method="POST">                
+                <input type="hidden" name="userID" value="{{user.userID}}" />
+                <button class="btn btn-gradient-primary me-2" type="submit">Upgrade Account</button>
+                <a href="{{url_for('admin_page_account_settings')}}" class="btn btn-light">Keep it now</a>                
+            </form>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}

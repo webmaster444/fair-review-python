@@ -1,0 +1,84 @@
+{% extends "admin/layout.html" %}
+
+{% block title %} All Product Reviews {% endblock %}
+
+{% block content %}
+    <div class="page-header">
+      <h3 class="page-title"> All Reviews </h3>      
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Filters</h4>   
+                    
+                    <form class="forms-sample" action="{{url_for('admin_page_reviews')}}" method="POST">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="productID">Product</label>
+                                    <select name="productID" id="productID" class="form-control">
+                                        <option value="">Please Select</option>
+                                        {% for product in products %}
+                                            <option value="{{product.ID}}" {%if pid | int == product.ID %} selected="selected" {% endif %}>{{product.Name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>                            
+                        </div>    
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="submit" class="btn btn-primary btn-icon-text"><i class="mdi mdi-magnify btn-icon-prepend"></i> Submit </button>
+                            </div>                            
+                        </div>                                                                    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">All Reviews</h4>                                
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th> Product Name </th>
+                        <th> Store Name</th>
+                        <th> Title </th>
+                        <th> Content </th>
+                        <th> Rate </th>                                            
+                        <th> Writer Info</th>
+                        <th> <i class="mdi mdi-thumb-up"></i> </th>
+                        <th> <i class="mdi mdi-thumb-down"></i> </th>
+                        <th> Approved </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                    <tr>
+                        <td class="py-1">
+                            <a href="{{review['Product URL']}}" target="_blank">{{review["Product Name"]}}</a>
+                        </td>
+                        <td>{{review["Store Name"]}}</td>
+                        <td><a href="{{url_for('admin_page_review')}}?id={{review['ID']}}">{{review["Title"]}} </a></td>
+                        <td>
+                            {{review["Content"]}}
+                        </td>
+                        <td> {{review["Rate"]}} </td>
+                        <td> {{review["Writer Name"]}} - {{review["Writer Position"]}}</td>
+                        <td> {{review["UpVote"]}}</td>
+                        <td>{{review["DownVote"]}}</td>
+                        <td>{{review["Approved"]}}</td>
+                    </tr>                    
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    </div>  
+{% endblock %}
